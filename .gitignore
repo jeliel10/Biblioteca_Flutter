@@ -45,6 +45,3 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 .metadata
-README.md
-pubspec.lock
-pubspec.yaml
