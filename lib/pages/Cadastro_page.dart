@@ -1,4 +1,10 @@
+import 'package:biblioteca/pages/Initial_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:biblioteca/services/auth_service.dart';
+import 'package:provider/src/provider.dart';
 
 class CadastroPage extends StatefulWidget {
   const CadastroPage({Key? key}) : super(key: key);
@@ -8,10 +14,14 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
-  String? email;
-  String? password;
-  String? cpf;
-  String? telefone;
+  String email = ' ';
+  String senha = ' ';
+  bool isLogin = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,20 +114,8 @@ class _CadastroPageState extends State<CadastroPage> {
                 TextFormField(
                     decoration: InputDecoration(labelText: 'Senha'),
                     onChanged: (text) {
-                      password = text;
+                      senha = text;
                     }),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'Telefone'),
-                  onChanged: (text) {
-                    telefone = text;
-                  },
-                ),
-                TextFormField(
-                  decoration: InputDecoration(labelText: 'CPF'),
-                  onChanged: (text) {
-                    cpf = text;
-                  },
-                ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -125,9 +123,35 @@ class _CadastroPageState extends State<CadastroPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(32.0),
                         child: ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('login');
-                          },
+                          onPressed: isLogin || email.isEmpty || senha.isEmpty
+                              ? null
+                              : () async {
+                                  setState(() {
+                                    isLogin = true;
+                                  });
+                                  try {
+                                    UserCredential userCredential =
+                                        await FirebaseAuth.instance
+                                            .createUserWithEmailAndPassword(
+                                                email: email, password: senha);
+                                  } on FirebaseAuthException catch (e) {
+                                    if (e.code == 'weak-password') {
+                                      print(
+                                          'The password provided is too weak.');
+                                    } else if (e.code ==
+                                        'email-already-in-use') {
+                                      print(
+                                          'The account already exists for that email.');
+                                    }
+                                  } catch (e) {
+                                    print(e);
+                                  }
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => Initial_page()));
+                                  setState(() {
+                                    isLogin = false;
+                                  });
+                                },
                           style:
                               ElevatedButton.styleFrom(primary: Colors.green),
                           child: Text('Concluir Cadastro'),

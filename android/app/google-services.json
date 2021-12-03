@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "703502957523",
+    "project_id": "flutterlivraria-22ed3",
+    "storage_bucket": "flutterlivraria-22ed3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703502957523:android:b44d6f66b1a4de44ad4d26",
+        "android_client_info": {
+          "package_name": "com.example.biblioteca"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703502957523-825lngmsj2f7q6nrpjjcd76lil4r44fb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhN3qgWV87Wo1KrSKlAfRo5qGtoObAXbk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703502957523-825lngmsj2f7q6nrpjjcd76lil4r44fb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

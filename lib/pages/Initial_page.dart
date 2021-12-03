@@ -1,4 +1,9 @@
+import 'package:biblioteca/bloc/cart_bloc.dart';
+import 'package:biblioteca/models/product_model.dart';
+import 'package:biblioteca/services/product_service.dart';
+import 'package:biblioteca/widgets/product_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Initial_page extends StatefulWidget {
   const Initial_page({Key? key}) : super(key: key);
@@ -90,78 +95,27 @@ class _Initial_pageState extends State<Initial_page> {
               Container(
                 height: 25,
               ),
-              ListTile(
-                leading: CircleAvatar(
-                  radius: 45,
-                  backgroundColor: Colors.blue,
-                ),
-                title: Text(
-                  "A Inveja dos Anjos - C. Stephen Jaeger",
-                  style: TextStyle(fontSize: 30),
-                ),
-                subtitle: Text(
-                  'N-Paginas: 600',
-                  style: TextStyle(fontSize: 20),
-                ),
-                trailing: Text(
-                  'R\$80,00',
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
-              ListTile(
-                leading: CircleAvatar(
-                  radius: 45,
-                  backgroundColor: Colors.indigo.shade900,
-                ),
-                title: Text(
-                  "Didascalicon - Hugo de São Vitor",
-                  style: TextStyle(fontSize: 30),
-                ),
-                subtitle: Text(
-                  'N-Paginas: 287',
-                  style: TextStyle(fontSize: 20),
-                ),
-                trailing: Text(
-                  'R\$56,00',
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
-              ListTile(
-                leading: CircleAvatar(
-                  radius: 45,
-                  backgroundColor: Colors.brown.shade900,
-                ),
-                title: Text(
-                  "As Três Idades da Vida Interior - R. Garrigou-Lagrange",
-                  style: TextStyle(fontSize: 30),
-                ),
-                subtitle: Text(
-                  'N-Paginas: 1800',
-                  style: TextStyle(fontSize: 20),
-                ),
-                trailing: Text(
-                  'R\$238,00',
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
-              ListTile(
-                leading: CircleAvatar(
-                  radius: 45,
-                  backgroundColor: Colors.blue,
-                ),
-                title: Text(
-                  "Historia da Literatura Ocidental - Otto Maria Carpeux",
-                  style: TextStyle(fontSize: 30),
-                ),
-                subtitle: Text(
-                  'N-Paginas: 2288',
-                  style: TextStyle(fontSize: 20),
-                ),
-                trailing: Text(
-                  'R\$267,00',
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
+              FutureBuilder<List<Product>>(
+                  future: ProductService.getProducts(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      return Column(
+                        children: [
+                          ...snapshot.data!.map((product) {
+                            return ProductTile(
+                              product: product,
+                              onTap: () {
+                                BlocProvider.of<CartBloc>(context)
+                                    .addProduct(product);
+                              },
+                            );
+                          })
+                        ],
+                      );
+                    }
+                  }),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [

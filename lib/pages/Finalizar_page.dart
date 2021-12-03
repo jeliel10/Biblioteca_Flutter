@@ -131,7 +131,9 @@ class _FinalizarPageState extends State<FinalizarPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(32.0),
                           child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('compra');
+                              },
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.green),
                               child: Text('Fechar Pedido')),

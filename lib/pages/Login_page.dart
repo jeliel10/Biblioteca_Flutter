@@ -1,4 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:biblioteca/services/auth_service.dart';
+import 'package:provider/src/provider.dart';
 
 class Loginpage extends StatefulWidget {
   const Loginpage({Key? key}) : super(key: key);
@@ -8,8 +11,10 @@ class Loginpage extends StatefulWidget {
 }
 
 class _LoginpageState extends State<Loginpage> {
-  String? email;
-  String? password;
+  String email = ' ';
+  String senha = ' ';
+  bool showPassword = false;
+  bool isLogin = false;
 
   @override
   Widget build(BuildContext context) {
@@ -98,9 +103,20 @@ class _LoginpageState extends State<Loginpage> {
                           email = text;
                         }),
                     TextFormField(
-                        decoration: InputDecoration(labelText: 'Senha'),
+                        obscureText: !showPassword,
+                        decoration: InputDecoration(
+                            labelText: 'Senha',
+                            suffix: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    showPassword = !showPassword;
+                                  });
+                                },
+                                icon: Icon(showPassword
+                                    ? Icons.visibility
+                                    : Icons.visibility_off))),
                         onChanged: (text) {
-                          password = text;
+                          senha = text;
                         }),
                     Row(
                       mainAxisSize: MainAxisSize.max,
@@ -109,13 +125,17 @@ class _LoginpageState extends State<Loginpage> {
                           child: Padding(
                             padding: const EdgeInsets.all(32.0),
                             child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed('initial');
-
-                                //dynamic uri Uri.parse('https://webhook.site/93f0e9aa-b053-42ad-88c6-0cb756be583d');
-
-                                // await http.post(uri, logindata);
-                              },
+                              onPressed:
+                                  isLogin || email.isEmpty || senha.isEmpty
+                                      ? null
+                                      : () async {
+                                          await FirebaseAuth.instance
+                                              .signInWithEmailAndPassword(
+                                                  email: email,
+                                                  password: senha);
+                                          Navigator.of(context)
+                                              .pushNamed('initial');
+                                        },
                               style: ElevatedButton.styleFrom(
                                   primary: Colors.green),
                               child: Text('Entrar'),

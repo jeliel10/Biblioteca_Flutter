@@ -1,0 +1,29 @@
+
+
+
+[
+    {
+        "title": "A Inveja dos Anjos - C. Stephen Jaeger",
+        "pages": "N-Paginas: 600",
+        "price": 80.00,
+        "imageName": "livro01.jpg"
+    },
+    {
+        "title": "Didascalicon - Hugo de S.Vitor",
+        "pages": "N-Paginas: 287",
+        "price": 56.00,
+        "imageName": "livro02.jpg"
+    },
+    {
+        "title": "As Três Idades da Vida Interior - R. Garrigou-Lagrange",
+        "pages": "N-Paginas: 1800",
+        "price": 238.00,
+        "imageName": "livro03.jpg"
+    },
+    {
+        "title": "Historia da Literatura Ocidental - Otto Maria Carpeux",
+        "pages": "N-Paginas: 2288",
+        "price": 267.00,
+        "imageName": "livro04.jpg"
+    }
+]
